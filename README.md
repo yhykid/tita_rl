@@ -10,7 +10,6 @@ English README.md：be updating...
 本次开源有三部分，分别是：  
 1. Isaac Gym仿真训练  
         将机器人模型导入到Isaac Gym中，进行仿真训练  
-代码仓：https://github.com/talon-huang/tita_rl.git
 ![alt text](<pictures_videos/isaac_gym.gif>)
     
 2. sim2sim仿真  
