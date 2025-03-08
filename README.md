@@ -4,8 +4,8 @@ English README.md：be updating...
 ![alt text](pictures_videos/output.gif)  
 有问题欢迎在Issues中反馈，欢迎大家一起加入学习。
 
-感谢开源：
-1. https://github.com/zeonsunlightyu/LocomotionWithNP3O.git
+本仓库强化学习基于：
+[N3PO Locomoton](https://github.com/zeonsunlightyu/LocomotionWithNP3O.git)
 
 本次开源有三部分，分别是：  
 1. Isaac Gym仿真训练  
