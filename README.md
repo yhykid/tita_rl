@@ -25,7 +25,7 @@ English README.md：to be updated
         
     [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](<pictures_videos/sim_webots.gif>)
-#### sim2real仿真  
+#### sim2real实机部署
 
     [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](pictures_videos/real_robot.gif)
