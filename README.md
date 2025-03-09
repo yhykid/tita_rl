@@ -15,6 +15,18 @@ English README.md：to be updated
 
 [TITATIT-Quadruped Mode](https://github.com/DDTRobot/titatit_rl)
 
+#### 参考环境
+
+| Environment        | Brief info   |
+| --------   | ----- | 
+| 显卡| RTX 3060 |
+| CUDA | CUDA12.5 |
+| 训练环境 | isaacgym |
+| sim2sim| Webots2023 |
+| ROS | ROS2 Humble |
+| 推理 | RTX 3060 / Jetson Orin NX on TITA + tensorRT|
+| 虚拟环境 | anaconda |
+
 
 本次开源有三部分，分别是：  
 #### Isaac Gym仿真训练  
@@ -61,8 +73,13 @@ English README.md：to be updated
     https://www.anaconda.com/download/success  
 
 #### 1.3 安装cuda
-    安装完成后用nvidia-smi命令(查看nvidia驱动)，“CUDA Version”提示安装cuda版本的上限，它是12.5，所以我选择安装12.0  
-    https://link.zhihu.com/?target=https%3A//developer.nvidia.com/cuda-toolkit-archive
+    [cuda-toolkit-installation](https://developer.nvidia.com/cuda-toolkit-archive)
+
+    使用以下指令检查是否成功安装
+
+    ```bash
+    nvidia-smi
+    ```
 
 #### 1.4. 安装tenssorrt  
     我的cuda版本是12.0,所以我安装tensorrt8.6.0  
