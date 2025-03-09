@@ -132,6 +132,8 @@ cd examples && python 1080_balls_of_solitude.py
 ```bash
 sudo prime-select nvidia
 export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+```
+
 #### 2.5. 退出conda环境
 ```bash
 conda deactivate
