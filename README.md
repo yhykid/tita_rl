@@ -18,16 +18,15 @@ English README.md：to be updated
 
 本次开源有三部分，分别是：  
 #### Isaac Gym仿真训练  
-        将机器人模型导入到Isaac Gym中，进行仿真训练  
+
 ![alt text](<pictures_videos/isaac_gym.gif>)
     
 #### sim2sim仿真  
-        使用sim2sim仿真，可以更快的检验isaac gym训练成果，为了安全，为了验证程序可行，还有很大程度上排除机器模型一致性问题，sim2sim没有太大的问题就可以开始实机部署  
+        
     [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](<pictures_videos/sim_webots.gif>)
 #### sim2real仿真  
-        sim2real，是比较复杂比较难的部分，这要求实机模型和仿真模型接近一致，同时对硬件和执行部件电机有较高要求，如果sim2sim的效果还不错可以检查一下  
-        电机响应时间，电机力矩大小，电机速度噪声，电机位置准确性还有上层控制带宽（控制频率）这都关乎实机的表现性能。  
+
     [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](pictures_videos/real_robot.gif)
 
