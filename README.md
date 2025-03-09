@@ -1,4 +1,4 @@
-## 0. 声明
+## 0. 指引
 
 >每个人的环境都不一样，遇到问题可以查看maybe_problems.md文件或在Issues上反馈。
 >
@@ -49,6 +49,7 @@
 ![alt text](pictures_videos/real_robot.gif)
 
 ## 1. 环境搭建
+>如您已有配好的RL环境，请直接跳至第3节开始训练
 
 #### 1.1 安装NVIDIA显卡驱动
 
