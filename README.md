@@ -76,7 +76,7 @@ sudo reboot
 ```
 
 #### 1.2 安装anaconda  
-    https://www.anaconda.com/download/success  
+[anaconda-installation](https://www.anaconda.com/download/success)  
 
 #### 1.3 安装cuda
 [cuda-toolkit-installation](https://developer.nvidia.com/cuda-toolkit-archive)
@@ -89,10 +89,10 @@ nvidia-smi
 
 #### 1.4. 安装tenssorrt  
 我的cuda版本是12.0,所以我安装tensorrt8.6.0  
-https://developer.nvidia.com/nvidia-tensorrt-8x-download
+[tensorRT-installation](https://developer.nvidia.com/nvidia-tensorrt-8x-download)
 
 #### 1.5. 安装issacgym  
-https://developer.nvidia.com/isaac-gym/download  
+[isaacgym-installation](https://developer.nvidia.com/isaac-gym/download)  
 
 ## 2. 测试环境
 
