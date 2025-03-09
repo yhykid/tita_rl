@@ -8,8 +8,11 @@ English README.md：to be updated
 有问题欢迎在Issues中反馈，欢迎大家一起加入学习。
 
 本仓库强化学习部分基于：
+
 [N3PO Locomoton](https://github.com/zeonsunlightyu/LocomotionWithNP3O.git)
+
 另附titatit四足模式训练环境：
+
 [TITATIT-Quadruped Mode](https://github.com/DDTRobot/titatit_rl)
 
 
