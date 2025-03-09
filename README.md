@@ -70,7 +70,9 @@ English README.md：to be updated
 ## 2. 测试环境
 
 >注意不要照抄指令
+>
 ><your_env_name>为你的虚拟环境名
+>
 ><your_path>为对应文件路径  
 
 
@@ -124,21 +126,24 @@ English README.md：to be updated
     ```
 #### 3.3. 运行训练程序
     ```bash
-    python train.py --task=Tita
+    python train.py --task=Tita 
     ```
     显存不够会非常卡，看到如下图片，表示程序正常执行，ctrl+c退出
 
     ![alt text](pictures_videos/image-1.png)
-    测试使用的事NVIDIA GeForce RTX 3060，打开图形界面的话，会非常卡，跑一次需要9s，建议关闭图形界面
+    
+    测试使用的是NVIDIA GeForce RTX 3060，打开图形界面的话，会非常卡，建议关闭图形界面
+    
     ![alt text](pictures_videos/image-2.png)\
+    
     为了解决显存不足卡顿的问题，我们可以使用--headless参数，这样程序会以命令行的形式运行，不会打开图形界面，这样可以节省显存，提高运行速度
     
     ```bash
     python train.py --task=Tita --headless
     ```
-    迭代时间瞬间缩短到2s  
+
     ![alt text](pictures_videos/image-3.png)  
-    显卡好一点速度会更快，4090的显卡，迭代时间1s左右  
+     
     ![alt text](pictures_videos/c7f9d78b-e6f7-46a5-b9cc-187ca142d9f5.jpeg)
 
 ## 4. 测试训练成果
