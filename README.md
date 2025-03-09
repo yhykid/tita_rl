@@ -15,7 +15,7 @@ English README.md：to be updated
 
 [TITATIT-Quadruped Mode](https://github.com/DDTRobot/titatit_rl)
 
-#### 参考环境
+**参考环境**
 
 | Environment        | Brief info   |
 | --------   | ----- | 
@@ -50,11 +50,11 @@ English README.md：to be updated
 
 #### 1.1 安装NVIDIA显卡驱动
 
-** 方式1：使用ubuntu软件中心安装驱动 **
+**方式1：使用ubuntu软件中心安装驱动**
 >http://www.nvidia.cn/Download/index.aspx?lang=cn
 
 
-** 方式2：端中使用apt工具包安装  **
+**方式2：端中使用apt工具包安装**
 
 添加 PPA 源：  
 ```markdown
