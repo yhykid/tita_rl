@@ -177,7 +177,7 @@ python train.py --task=Tita --headless
 ```bash
 python simple_play.py --task=Tita
 ```
-    ![alt text](<pictures_videos/isaac_gym.gif>)
+![alt text](<pictures_videos/isaac_gym.gif>)
 #### 4.2. 将tita_rl主目录下的test.onnx推理转成model_gn.engine做sim2sim仿真
 ```bash
 /usr/src/tensorrt/bin/trtexec --onnx=test.onnx --saveEngine=model_gn.engine
