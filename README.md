@@ -1,11 +1,13 @@
 ## 0. 声明
-持续更新中~~~  
 
-English README.md：to be updated
+>每个人的环境都不一样，遇到问题可以查看maybe_problems.md文件或在Issues上反馈。
+>
+>持续更新中
+>
+>English README.md：to be updated
+
 
 ![alt text](pictures_videos/output.gif)  
-
-有问题欢迎在Issues中反馈，欢迎大家一起加入学习。
 
 本仓库强化学习部分基于：
 
@@ -187,6 +189,4 @@ python simple_play.py --task=Tita
 至此，iaacgym仿真和推理部分已经完成，接下来转到sim2sim和sim2real部分。  
 
 sim2sim2real参考：[tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
-
->每个人的环境都不一样，遇到问题可以查看maybe_problems.md文件或在Issues上反馈
 
