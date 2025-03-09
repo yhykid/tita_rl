@@ -1,4 +1,4 @@
-English README.md：be updating...
+English README.md：to be updated
 
 持续更新中~~~  
 ![alt text](pictures_videos/output.gif)  
@@ -14,12 +14,12 @@ English README.md：be updating...
     
 2. sim2sim仿真  
         使用sim2sim仿真，可以更快的检验isaac gym训练成果，为了安全，为了验证程序可行，还有很大程度上排除机器模型一致性问题，sim2sim没有太大的问题就可以开始实机部署  
-    代码仓：https://github.com/talon-huang/sim2sim2real.git
+    [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](<pictures_videos/sim_webots.gif>)
 3. sim2real仿真  
         sim2real，是比较复杂比较难的部分，这要求实机模型和仿真模型接近一致，同时对硬件和执行部件电机有较高要求，如果sim2sim的效果还不错可以检查一下  
         电机响应时间，电机力矩大小，电机速度噪声，电机位置准确性还有上层控制带宽（控制频率）这都关乎实机的表现性能。  
-    代码仓：https://github.com/talon-huang/sim2sim2real.git 
+    [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](pictures_videos/real_robot.gif)
 
 一. 环境搭建（每个人的环境都不一样，以下尽可能的把注意事项写上，遇到问题可以先问AI，也可以查看maybe_problems.md文件，实在不行在Issues上反馈）
@@ -107,7 +107,7 @@ English README.md：be updating...
 
 1. 从github上下载代码
     ```bash
-    git clone https://github.com/talon-huang/tita_rl.git
+    git clone https://github.com/DDTRobot/tita_rl.git
     cd tita_rl
     ```
 2. 激活conda环境   
@@ -146,4 +146,4 @@ English README.md：be updating...
     /usr/src/tensorrt/bin/trtexec --onnx=test.onnx --saveEngine=model_gn.engine
     ```
     至此，iaacgym仿真和推理部分已经完成，接下来转到sim2sim和sim2real部分。  
-    请参考代码仓：https://github.com/talon-huang/sim2sim2real.git
+    请参考代码仓：[tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
