@@ -1,7 +1,10 @@
 ### 0. 声明
 持续更新中~~~  
+
 English README.md：to be updated
+
 ![alt text](pictures_videos/output.gif)  
+
 有问题欢迎在Issues中反馈，欢迎大家一起加入学习。
 
 本仓库强化学习部分基于：
