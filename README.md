@@ -6,6 +6,9 @@ English README.md：to be updated
 
 本仓库强化学习部分基于：
 [N3PO Locomoton](https://github.com/zeonsunlightyu/LocomotionWithNP3O.git)
+另附titatit四足模式训练环境：
+[TITATIT-Quadruped Mode](https://github.com/DDTRobot/titatit_rl)
+
 
 本次开源有三部分，分别是：  
 1. Isaac Gym仿真训练  
