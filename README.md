@@ -167,9 +167,9 @@ python train.py --task=Tita
 python train.py --task=Tita --headless
 ```
 
-    ![alt text](pictures_videos/image-3.png)  
+![alt text](pictures_videos/image-3.png)  
      
-    ![alt text](pictures_videos/c7f9d78b-e6f7-46a5-b9cc-187ca142d9f5.jpeg)
+![alt text](pictures_videos/c7f9d78b-e6f7-46a5-b9cc-187ca142d9f5.jpeg)
 
 ## 4. 测试训练成果
 #### 4.1. 查看训练成果
