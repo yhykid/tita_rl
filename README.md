@@ -186,5 +186,5 @@ python simple_play.py --task=Tita
 
 sim2sim2real参考：[tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 
->（每个人的环境都不一样，以下尽可能的把注意事项写上，遇到问题可以先问AI，也可以查看maybe_problems.md文件，实在不行在Issues上反馈）
+>每个人的环境都不一样，遇到问题可以查看maybe_problems.md文件或在Issues上反馈
 
