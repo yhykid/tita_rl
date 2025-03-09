@@ -180,8 +180,9 @@ English README.md：to be updated
     ```bash
     /usr/src/tensorrt/bin/trtexec --onnx=test.onnx --saveEngine=model_gn.engine
     ```
-    至此，iaacgym仿真和推理部分已经完成，接下来转到sim2sim和sim2real部分。  
-    请参考代码仓：[tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
+至此，iaacgym仿真和推理部分已经完成，接下来转到sim2sim和sim2real部分。  
+
+sim2sim2real参考：[tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 
 >（每个人的环境都不一样，以下尽可能的把注意事项写上，遇到问题可以先问AI，也可以查看maybe_problems.md文件，实在不行在Issues上反馈）
 
