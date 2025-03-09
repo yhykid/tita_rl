@@ -28,7 +28,9 @@ English README.md：to be updated
 | 虚拟环境 | anaconda |
 
 
-本次开源有三部分，分别是：  
+
+### 本次开源包含有三部分  
+
 #### Isaac Gym仿真训练  
 
 ![alt text](<pictures_videos/isaac_gym.gif>)
