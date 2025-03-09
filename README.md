@@ -1,4 +1,4 @@
-### 0. 声明
+## 0. 声明
 持续更新中~~~  
 
 English README.md：to be updated
@@ -28,7 +28,7 @@ English README.md：to be updated
     [tita_rl_sim2sim2real](https://github.com/DDTRobot/tita_rl_sim2sim2real)
 ![alt text](pictures_videos/real_robot.gif)
 
-### 1. 环境搭建
+## 1. 环境搭建
 
 #### 1.1 安装NVIDIA显卡驱动
 
@@ -67,7 +67,7 @@ English README.md：to be updated
 #### 1.5. 安装issacgym  
     https://developer.nvidia.com/isaac-gym/download  
 
-### 2. 测试环境
+## 2. 测试环境
 
 >注意不要照抄指令
 ><your_env_name>为你的虚拟环境名
@@ -110,7 +110,7 @@ English README.md：to be updated
     conda deactivate
     ```
 
-### 3. 开始训练
+## 3. 开始训练
 
 #### 3.1. 从github上下载代码
     ```bash
@@ -141,14 +141,14 @@ English README.md：to be updated
     显卡好一点速度会更快，4090的显卡，迭代时间1s左右  
     ![alt text](pictures_videos/c7f9d78b-e6f7-46a5-b9cc-187ca142d9f5.jpeg)
 
-### 4. 测试训练成果
-### 4.1. 查看训练成果
+## 4. 测试训练成果
+#### 4.1. 查看训练成果
         训练好的文件在tita_rl/logs下，例如model_10000.pt，将它拷贝到tita_rl主目录下，然后运行能看到
     ```bash
     python simple_play.py --task=Tita
     ```
     ![alt text](<pictures_videos/isaac_gym.gif>)
-### 4.2. 将tita_rl主目录下的test.onnx推理转成model_gn.engine做sim2sim仿真
+#### 4.2. 将tita_rl主目录下的test.onnx推理转成model_gn.engine做sim2sim仿真
     ```bash
     /usr/src/tensorrt/bin/trtexec --onnx=test.onnx --saveEngine=model_gn.engine
     ```
