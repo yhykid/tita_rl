@@ -50,26 +50,26 @@ English README.md：to be updated
 
 #### 1.1 安装NVIDIA显卡驱动
 
-    方式1：使用ubuntu软件中心安装驱动  
-        http://www.nvidia.cn/Download/index.aspx?lang=cn
+方式1：使用ubuntu软件中心安装驱动  
+>http://www.nvidia.cn/Download/index.aspx?lang=cn
 
-    方式2：端中使用apt工具包安装  
-        添加 PPA 源：  
-    ```markdown
+方式2：端中使用apt工具包安装  
+添加 PPA 源：  
+```markdown
     sudo add-apt-repository ppa:graphics-drivers/ppa  
-    ``` 
-    为系统安装依赖项以构建内核模块： 
-    ```bash 
-    sudo apt-get install dkms build-essential  
-    ```  
-    安装NVIDIA驱动  
-    ```bash 
-    sudo ubuntu-drivers autoinstall  
-    ```
-    系统会自动安装推荐版本驱动，安装完重启系统  
-    ```bash 
-    sudo reboot  
-    ```
+``` 
+为系统安装依赖项以构建内核模块： 
+```bash 
+sudo apt-get install dkms build-essential  
+```  
+安装NVIDIA驱动  
+```bash 
+sudo ubuntu-drivers autoinstall  
+```
+系统会自动安装推荐版本驱动，安装完重启系统  
+```bash 
+sudo reboot  
+```
 
 #### 1.2 安装anaconda  
     https://www.anaconda.com/download/success  
