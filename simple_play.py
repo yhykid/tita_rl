@@ -1,5 +1,4 @@
-from configs.tita_constraint_him import TitaConstraintHimRoughCfg, TitaConstraintHimRoughCfgPPO
-from configs.titati_constaint_config import TitatiConstraintHimRoughCfg, TitatiConstraintHimRoughCfgPPO
+from configs.tita_constraint import TitaConstraintHimRoughCfg, TitaConstraintHimRoughCfgPPO
 
 import cv2
 import os
@@ -130,8 +129,6 @@ def play(args):
     video.release()
 if __name__ == '__main__':
     task_registry.register("Tita",LeggedRobot,TitaConstraintHimRoughCfg(),TitaConstraintHimRoughCfgPPO())
-    task_registry.register("Titatit",LeggedRobot,TitatiConstraintHimRoughCfg(),TitatiConstraintHimRoughCfgPPO())
-
     RECORD_FRAMES = True
     args = get_args()
     play(args)

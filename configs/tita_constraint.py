@@ -30,61 +30,41 @@
 
 from configs.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
 
-class TitatiConstraintHimRoughCfg( LeggedRobotCfg ):
+class TitaConstraintHimRoughCfg( LeggedRobotCfg ):
     class env(LeggedRobotCfg.env):
         num_envs = 4096
 
         n_scan = 187
-        n_priv_latent =  4 + 1 + 12 + 12 + 12 + 6 + 1 + 4 + 1 - 3
-        n_proprio = 45
+        n_priv_latent =  4 + 1 + 8 + 8 + 8 + 6 + 1 + 2 + 1 - 3
+        n_proprio = 33
         history_len = 10
         num_observations = n_proprio + n_scan + history_len*n_proprio + n_priv_latent
 
     class init_state( LeggedRobotCfg.init_state ):
         pos = [0.0, 0.0, 0.34] # x,y,z [m]
 
-        default_joint_angles = { # = target angles [rad] when action = 0.0
-            'FL_hip_joint': 0.0,   # [rad]
-            'RL_hip_joint': 0.0,   # [rad]
-            'FR_hip_joint': -0.0 ,  # [rad]
-            'RR_hip_joint': -0.0,   # [rad]
+        default_joint_angles = {
+                'joint_left_leg_1': 0,
+                'joint_right_leg_1': 0,
 
-            'FL_thigh_joint': 0.8,     # [rad]
-            'RL_thigh_joint': -1.,   # [rad]
-            'FR_thigh_joint': 0.8,     # [rad]
-            'RR_thigh_joint': -1.,   # [rad]
+                'joint_left_leg_2': 0.8,
+                'joint_right_leg_2': 0.8,
 
-            'FL_calf_joint': -1.5,   # [rad]
-            'RL_calf_joint': 1.5,    # [rad]
-            'FR_calf_joint': -1.5,  # [rad]
-            'RR_calf_joint': 1.5,    # [rad]
+                'joint_left_leg_3': -1.5,
+                'joint_right_leg_3': -1.5,
+
+                'joint_left_leg_4': 0,
+                'joint_right_leg_4': 0,
         }
-
-        # default_joint_angles = { # = target angles [rad] when action = 0.0
-        #     'FL_hip_joint': 0.0,   # [rad]
-        #     'RL_hip_joint': 0.0,   # [rad]
-        #     'FR_hip_joint': 0.0 ,  # [rad]
-        #     'RR_hip_joint': 0.0,   # [rad]
-
-        #     'FL_thigh_joint': 0.9,     # [rad]
-        #     'RL_thigh_joint': 0.9,   # [rad]
-        #     'FR_thigh_joint': 0.9,     # [rad]
-        #     'RR_thigh_joint': 0.9,   # [rad]
-
-        #     'FL_calf_joint': -1.8,   # [rad]
-        #     'RL_calf_joint': -1.8,    # [rad]
-        #     'FR_calf_joint': -1.8,  # [rad]
-        #     'RR_calf_joint': -1.8,    # [rad]
-        # }
 
 
     class control( LeggedRobotCfg.control ):
         # PD Drive parameters:
         control_type = 'P'
-        stiffness = {'joint': 40.}  # [N*m/rad]
-        damping = {'joint': 1.2}     # [N*m*s/rad]
+        stiffness = {'joint': 40}  # [N*m/rad]
+        damping = {'joint': 1.0}     # [N*m*s/rad]
         # action scale: target angle = actionScale * action + defaultAngle
-        action_scale = 0.25
+        action_scale = 0.5
         # decimation: Number of control action updates @ sim DT per policy DT
         decimation = 4
         hip_scale_reduction = 0.5
@@ -100,41 +80,25 @@ class TitatiConstraintHimRoughCfg( LeggedRobotCfg ):
         global_reference = False
 
         class ranges:
-            lin_vel_x = [-0.5, 0.5]  # min max [m/s]
-            lin_vel_y = [-0.5, 0.5]  # min max [m/s]
-            ang_vel_yaw = [-0.5, 0.5]  # min max [rad/s]
-            heading = [-1.57, 1.57]
+            lin_vel_x = [-1.0, 1.0]  # min max [m/s]
+            lin_vel_y = [-1.0, 1.0]  # min max [m/s]
+            ang_vel_yaw = [-1, 1]  # min max [rad/s]
+            heading = [-3.14, 3.14]
 
     class asset( LeggedRobotCfg.asset ):
-        
-        file = '{ROOT_DIR}/resources/titati_urdf/urdf/titatit_robot_2.urdf'
-        foot_name = "foot"
-        name = "titati"
-        penalize_contacts_on = ["thigh", "calf"]
+
+        file = '{ROOT_DIR}/resources/tita/urdf/tita_description.urdf'
+        foot_name = "leg_4"
+        name = "tita"
+        penalize_contacts_on = ["leg_3"]
         terminate_after_contacts_on = ["base"]
         self_collisions = 0 # 1 to disable, 0 to enable...bitwise filter
         flip_visual_attachments = False
   
     class rewards( LeggedRobotCfg.rewards ):
         soft_dof_pos_limit = 0.9
-        base_height_target = 0.34
+        base_height_target = 0.29
         class scales( LeggedRobotCfg.rewards.scales ):
-            # torques = -0.0001
-            # termination = 0.0
-            # tracking_lin_vel = 1.0
-            # tracking_ang_vel = 0.5
-            # lin_vel_z = -2.0
-            # ang_vel_xy = -0.05
-            # orientation = -0.2
-            # dof_vel = 0.0
-            # dof_acc = -2.5e-7
-            # base_height = -1
-            # feet_air_time = 1.0
-            # collision = 0.0
-            # feet_stumble = 0.0
-            # action_rate = -0.01
-            # action_smoothness=-0.001
-            # stand_still = 0.0
 
             torques = 0.0
             powers = -2e-5
@@ -150,61 +114,10 @@ class TitatiConstraintHimRoughCfg( LeggedRobotCfg ):
             collision = -1.0
             feet_stumble = 0.0
             action_rate = -0.01
-            action_smoothness=-0.01
+            action_smoothness= 0
             stand_still = 0.0
-            foot_clearance= -0.01
-            orientation=-0.2
-
-            # torques = -0.00001
-            # termination = 0.0
-            # tracking_lin_vel = 1.0
-            # tracking_ang_vel = 0.5
-            # # tracking_target = 1.0
-            # lin_vel_z = -2.0
-            # ang_vel_xy = -0.05
-            # orientation = 0.0
-            # dof_vel = 0.0
-            # dof_acc = 0.0
-            # base_height = 0.0
-            # feet_air_time = 1.0
-            # collision = 0.0
-            # feet_stumble = 0.0
-            # action_rate = -0.01
-            # stand_still = 0.0
-
-            # torques = -0.0002
-            # termination = 0.0
-            # tracking_lin_vel = 1.0
-            # tracking_ang_vel = 0.5
-            # lin_vel_z = -2.0
-            # ang_vel_xy = -0.05
-            # orientation = 0.0
-            # dof_vel = 0.0
-            # dof_acc = 0.0
-            # base_height = 0.0
-            # feet_air_time = 1.0
-            # collision = 0.0
-            # feet_stumble = 0.0
-            # action_rate = -0.01
-            # stand_still = 0.0
-            
-            # torques = -0.0002
-            # termination = 0.0
-            # tracking_lin_vel = 1.0
-            # tracking_ang_vel = 0.5
-            # # tracking_target = 1.0
-            # lin_vel_z = -2.0
-            # ang_vel_xy = -0.05
-            # orientation = 0.0
-            # dof_vel = 0.0
-            # dof_acc = 0.0
-            # base_height = 0.0
-            # feet_air_time = 1.0
-            # collision = 0.0
-            # feet_stumble = 0.0
-            # action_rate = -0.01
-            # stand_still = 0.0
-
+            foot_clearance= -0.0
+            orientation=-1.0
     class domain_rand( LeggedRobotCfg.domain_rand):
         randomize_friction = True
         friction_range = [0.2, 2.75]
@@ -227,6 +140,10 @@ class TitatiConstraintHimRoughCfg( LeggedRobotCfg ):
 
         randomize_lag_timesteps = True
         lag_timesteps = 3
+
+        disturbance = False
+        disturbance_range = [-30.0, 30.0]
+        disturbance_interval = 8
     
     class depth( LeggedRobotCfg.depth):
         use_camera = False
@@ -261,13 +178,6 @@ class TitatiConstraintHimRoughCfg( LeggedRobotCfg ):
             #collision = 0.1
             feet_contact_forces = 0.1
             stumble = 0.1
-            #feet_air_time = 1
-            #torques= 1
-            #action_rate= 1
-            #base_height=1
-            # stand_still=1
-            # hip_pos=0.3
- 
         class d_values:
             pos_limit = 0.0
             torque_limit = 0.0
@@ -277,24 +187,18 @@ class TitatiConstraintHimRoughCfg( LeggedRobotCfg ):
             #collision = 0.0
             feet_contact_forces = 0.0
             stumble = 0.0
-            #feet_air_time = 0.0
-            #torques = 0.025
-            #action_rate=0.07
-            #base_height=0.0
-            # stand_still=0.0
-            #hip_pos=0.0
-    
+
  
     
     class cost:
         num_costs = 6
     
     class terrain(LeggedRobotCfg.terrain):
-        mesh_type = 'trimesh'  # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'plane'  # "heightfield" # none, plane, heightfield or trimesh
         measure_heights = True
         include_act_obs_pair_buf = False
 
-class TitatiConstraintHimRoughCfgPPO( LeggedRobotCfgPPO ):
+class TitaConstraintHimRoughCfgPPO( LeggedRobotCfgPPO ):
     class algorithm( LeggedRobotCfgPPO.algorithm ):
         entropy_coef = 0.01
         learning_rate = 1.e-3
@@ -326,14 +230,16 @@ class TitatiConstraintHimRoughCfgPPO( LeggedRobotCfgPPO ):
       
     class runner( LeggedRobotCfgPPO.runner ):
         run_name = 'test_barlowtwins_feetcontact'
-        experiment_name = 'rough_titati_constraint'
-        policy_class_name = 'ActorCriticRMA'
+        experiment_name = 'flat_tita_constraint'
+        policy_class_name = 'ActorCriticBarlowTwins'
         runner_class_name = 'OnConstraintPolicyRunner'
-        algorithm_class_name = 'PPO'
-        max_iterations = 6000
+        algorithm_class_name = 'NP3O'
+        max_iterations = 10000
         num_steps_per_env = 24
         resume = False
         resume_path = ''
+        load_run = -1  # -1 = last run
+        checkpoint = -1  # -1 = last saved model
  
 
   

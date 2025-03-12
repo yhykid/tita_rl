@@ -1,8 +1,10 @@
 import numpy as np
 import os
 from datetime import datetime
-from configs.tita_constraint_him import TitaConstraintHimRoughCfg, TitaConstraintHimRoughCfgPPO
-from configs.titati_constaint_config import TitatiConstraintHimRoughCfg, TitatiConstraintHimRoughCfgPPO
+from configs.tita_constraint import TitaConstraintHimRoughCfg, TitaConstraintHimRoughCfgPPO
+from configs.tita_flat_config import TitaFlatCfg, TitaFlatCfgPPO
+from configs.tita_rough_config import TitaRoughCfg, TitaRoughCfgPPO
+from envs.tita import Tita
 
 
 import isaacgym
@@ -18,7 +20,8 @@ def train(args):
 if __name__ == '__main__':
 
     task_registry.register("Tita",LeggedRobot,TitaConstraintHimRoughCfg(),TitaConstraintHimRoughCfgPPO())
-    task_registry.register("Titatit",LeggedRobot,TitatiConstraintHimRoughCfg(),TitatiConstraintHimRoughCfgPPO())
+    task_registry.register("tita_flat", Tita, TitaFlatCfg(), TitaFlatCfgPPO())
+    task_registry.register("tita_rough", Tita, TitaRoughCfg(), TitaRoughCfgPPO())
 
     args = get_args()
     train(args)
