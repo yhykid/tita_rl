@@ -156,7 +156,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your path/anaconda3/envs/<your_env_name>
 ```
 #### 3.3. 运行训练程序
 ```bash
-python train.py --task=Tita 
+python train.py --task=tita 
 ```
 显存不够会非常卡，看到如下图片，表示程序正常执行，ctrl+c退出
 
@@ -169,7 +169,7 @@ python train.py --task=Tita
 为了解决显存不足卡顿的问题，我们可以使用--headless参数，这样程序会以命令行的形式运行，不会打开图形界面，这样可以节省显存，提高运行速度
 
 ```bash
-python train.py --task=Tita --headless
+python train.py --task=tita --headless
 ```
 
 ![alt text](pictures_videos/image-3.png)  
@@ -180,7 +180,7 @@ python train.py --task=Tita --headless
 #### 4.1. 查看训练成果
 训练好的文件在tita_rl/logs下，例如model_10000.pt，将它拷贝到tita_rl主目录下，然后运行能看到
 ```bash
-python simple_play.py --task=Tita
+python simple_play.py --task=tita
 ```
 ![alt text](<pictures_videos/isaac_gym.gif>)
 #### 4.2. 将tita_rl主目录下的test.onnx推理转成model_gn.engine做sim2sim仿真

@@ -808,7 +808,7 @@ class LeggedRobot(BaseTask):
         # random ori
         # self.root_states[env_ids, 3:7] = random_quat(torch_rand_float(0, 1, (len(env_ids), 4), device=self.device))
 
-        # 使用固定的初始旋转
+        # Use a fixed initial rotation
         self.root_states[env_ids, 3:7] = self.base_init_state[3:7]        # random height
         
         self.root_states[env_ids, 2:3] += torch_rand_float(0, 0.2, (len(env_ids), 1), device=self.device)

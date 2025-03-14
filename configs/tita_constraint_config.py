@@ -29,10 +29,10 @@
 # Copyright (c) 2021 ETH Zurich, Nikita Rudin
 
 from configs.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
-
-class TitaConstraintHimRoughCfg( LeggedRobotCfg ):
+from global_config import ROOT_DIR
+class TitaConstraintRoughCfg( LeggedRobotCfg ):
     class env(LeggedRobotCfg.env):
-        num_envs = 100
+        num_envs = 4096
 
         n_scan = 187
         n_priv_latent =  4 + 1 + 8 + 8 + 8 + 6 + 1 + 2 + 1 - 3
@@ -200,7 +200,7 @@ class TitaConstraintHimRoughCfg( LeggedRobotCfg ):
         measure_heights = True
         include_act_obs_pair_buf = False
 
-class TitaConstraintHimRoughCfgPPO( LeggedRobotCfgPPO ):
+class TitaConstraintRoughCfgPPO( LeggedRobotCfgPPO ):
     class algorithm( LeggedRobotCfgPPO.algorithm ):
         entropy_coef = 0.01
         learning_rate = 1.e-3
@@ -232,13 +232,13 @@ class TitaConstraintHimRoughCfgPPO( LeggedRobotCfgPPO ):
       
     class runner( LeggedRobotCfgPPO.runner ):
         run_name = 'test_barlowtwins_feetcontact'
-        experiment_name = 'flat_tita_constraint'
+        experiment_name = 'rough_tita_constraint'
         policy_class_name = 'ActorCriticBarlowTwins'
         runner_class_name = 'OnConstraintPolicyRunner'
         algorithm_class_name = 'NP3O'
         max_iterations = 10000
         num_steps_per_env = 24
-        resume = True
+        resume = False
         resume_path = 'tita_example_10000.pt'
  
 

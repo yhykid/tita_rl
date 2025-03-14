@@ -1,5 +1,4 @@
-from configs.tita_constraint_config import TitaConstraintHimRoughCfg, TitaConstraintHimRoughCfgPPO
-from configs.titati_constaint_config import TitatiConstraintHimRoughCfg, TitatiConstraintHimRoughCfgPPO
+from configs.tita_constraint_config import TitaConstraintRoughCfg, TitaConstraintRoughCfgPPO
 
 import cv2
 import os
@@ -63,7 +62,7 @@ def play(args):
                                                       **policy_cfg_dict)
     print(policy)
     #model_dict = torch.load(os.path.join(ROOT_DIR, 'model_4000_phase2_hip.pt'))
-    model_dict = torch.load(os.path.join(ROOT_DIR, 'model_10000.pt'))
+    model_dict = torch.load(os.path.join(ROOT_DIR, 'model_2600.pt'))
     policy.load_state_dict(model_dict['model_state_dict'])
     policy = policy.to(env.device)
     policy.save_torch_jit_policy('model.pt',env.device)
@@ -129,8 +128,7 @@ def play(args):
 
     video.release()
 if __name__ == '__main__':
-    task_registry.register("Tita",LeggedRobot,TitaConstraintHimRoughCfg(),TitaConstraintHimRoughCfgPPO())
-    task_registry.register("Titatit",LeggedRobot,TitatiConstraintHimRoughCfg(),TitatiConstraintHimRoughCfgPPO())
+    task_registry.register("tita",LeggedRobot,TitaConstraintRoughCfg(),TitaConstraintRoughCfgPPO())
 
     RECORD_FRAMES = True
     args = get_args()

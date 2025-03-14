@@ -34,32 +34,36 @@ class TaskRegistry():
         env_cfg.seed = train_cfg.seed
         return env_cfg, train_cfg
     
-    def save_cfgs(self, name) -> Tuple[LeggedRobotCfg, LeggedRobotCfgPPO]:
-        os.mkdir(self.log_dir)
+    def save_config_files(self, name):
+        """
+        Save task-related configuration files to the log directory.
 
+        Args:
+            name (str): Task name used to locate the configuration files.
+        """
+        if not os.path.exists(self.log_dir):
+            os.makedirs(self.log_dir, exist_ok=True)
+
+        # Define the file paths to be saved
         save_items = [
-            os.path.join(
-                self.log_dir,
-                ENVS_DIR + "/legged_robot.py",
-                ),
-            os.path.join(
-                self.log_dir,
-                ROOT_DIR + "/configs/legged_robot_config.py",
-                ),
-            os.path.join(
-                self.log_dir,
-                ROOT_DIR + "/configs/" + "{}_constraint_config.py".format(name),
-                ),
+            os.path.join(ENVS_DIR, "legged_robot.py"),  # Path to legged_robot.py
+            os.path.join(ROOT_DIR, "configs", "legged_robot_config.py"),  # Path to legged_robot_config.py
+            os.path.join(ROOT_DIR, "configs", f"{name}_constraint_config.py"),  # Path to task-specific constraint config file
         ]
-        py_root = os.path.join(
-            ENVS_DIR  + "{}.py".format(name),
-            )
+
+        # Add the task-specific Python file path (if it exists)
+        py_root = os.path.join(ENVS_DIR, f"{name}.py")
         if os.path.exists(py_root):
-            save_items.append(os.path.join(self.log_dir, py_root))
-        if save_items is not None:
-            for save_item in save_items:
-                base_file_name = ntpath.basename(save_item)
-                copyfile(save_item, self.log_dir + "/" + base_file_name)
+            save_items.append(py_root)
+
+        # Iterate through and copy files to the log directory
+        for save_item in save_items:
+            if os.path.exists(save_item):  # Check if the file exists
+                base_file_name = ntpath.basename(save_item)  # Get the file name
+                destination_path = os.path.join(self.log_dir, base_file_name)  # Destination path
+                copyfile(save_item, destination_path)  # Copy the file
+            else:
+                print(f"Warning: {save_item} does not exist and will not be copied.")
 
     def make_env(self, name, args=None, env_cfg=None) -> Tuple[VecEnv, LeggedRobotCfg]:
         """ Creates an environment either from a registered namme or from the provided config file.
@@ -141,6 +145,11 @@ class TaskRegistry():
             self.log_dir = None
         else:
             self.log_dir = os.path.join(log_root, datetime.now().strftime('%b%d_%H-%M-%S') + '_' + train_cfg.runner.run_name)
+        
+        if self.log_dir is not None:
+            os.makedirs(self.log_dir, exist_ok=True)
+            self.save_config_files(name)
+
         train_cfg_dict = class_to_dict(train_cfg)
         runner_class = eval(train_cfg.runner.runner_class_name)
         runner = runner_class(env, train_cfg_dict, self.log_dir, device=args.rl_device)

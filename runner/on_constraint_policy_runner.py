@@ -134,7 +134,6 @@ class OnConstraintPolicyRunner:
             if self.alg.actor_critic.imi_flag and self.cfg['resume']: 
                 step_size = 1/int(tot_iter/2)
                 imi_weight = max(0,1 - it * step_size)
-                print("imi_weight:",imi_weight)
                 self.alg.set_imi_weight(imi_weight)
             
             start = time.time()
