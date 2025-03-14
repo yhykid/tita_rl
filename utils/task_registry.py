@@ -36,22 +36,31 @@ class TaskRegistry():
         # copy seed
         env_cfg.seed = train_cfg.seed
         return env_cfg, train_cfg
-    
-    def save_config_files(self, name):
+
+
+    def save_cfgs(self, name, train_cfg):
         """
-        Save task-related configuration files to the log directory.
+        Save all task-related configuration files to the log directory.
 
         Args:
             name (str): Task name used to locate the configuration files.
+            train_cfg (object): Training configuration object, used to determine which files to save.
         """
+        # Ensure the log directory exists
         if not os.path.exists(self.log_dir):
             os.makedirs(self.log_dir, exist_ok=True)
 
-        # Define the file paths to be saved
+        # Determine the correct Python file based on the runner class name
+        if train_cfg.runner.runner_class_name == "OnPolicyRunner":
+            robot_file = "no_constrains_legged_robot.py"
+        else:
+            robot_file = "legged_robot.py"
+
+        # Define the file paths to be saved (from save_config_files logic)
         save_items = [
-            os.path.join(ENVS_DIR, "legged_robot.py"),  # Path to legged_robot.py
+            os.path.join(ENVS_DIR, robot_file),  # Path to the selected robot file
             os.path.join(ROOT_DIR, "configs", "legged_robot_config.py"),  # Path to legged_robot_config.py
-            os.path.join(ROOT_DIR, "configs", f"{name}_constraint_config.py"),  # Path to task-specific constraint config file
+            os.path.join(ROOT_DIR, "configs", f"{name}_config.py"),  # Path to task-specific constraint config file
         ]
 
         # Add the task-specific Python file path (if it exists)
@@ -59,14 +68,23 @@ class TaskRegistry():
         if os.path.exists(py_root):
             save_items.append(py_root)
 
-        # Iterate through and copy files to the log directory
+        # Additional files to save (from original save_cfgs logic)
+        additional_items = [
+            os.path.join(ROOT_DIR, "configs", f"{name}_constraint_config.py"),  # Task-specific constraint config
+        ]
+        save_items.extend(additional_items)
+
+        # Save all files
         for save_item in save_items:
             if os.path.exists(save_item):  # Check if the file exists
                 base_file_name = ntpath.basename(save_item)  # Get the file name
                 destination_path = os.path.join(self.log_dir, base_file_name)  # Destination path
                 copyfile(save_item, destination_path)  # Copy the file
+                print(f"Saved: {destination_path}")
             else:
                 print(f"Warning: {save_item} does not exist and will not be copied.")
+
+
 
     def make_env(self, name, args=None, env_cfg=None) -> Tuple[VecEnv, LeggedRobotCfg]:
         """ Creates an environment either from a registered namme or from the provided config file.
@@ -148,10 +166,6 @@ class TaskRegistry():
             self.log_dir = None
         else:
             self.log_dir = os.path.join(log_root, datetime.now().strftime('%b%d_%H-%M-%S') + '_' + train_cfg.runner.run_name)
-        
-        if self.log_dir is not None:
-            os.makedirs(self.log_dir, exist_ok=True)
-            self.save_config_files(name)
 
         train_cfg_dict = class_to_dict(train_cfg)
         if train_cfg.runner.runner_class_name == "OnPolicyRunner":

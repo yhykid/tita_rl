@@ -95,6 +95,11 @@ nvidia-smi
 #### 1.5. 安装issacgym  
 [isaacgym-installation](https://developer.nvidia.com/isaac-gym/download)  
 
+
+#### 1.5. 安装rsl_rl (PPO implementation)  
+Clone https://github.com/leggedrobotics/rsl_rl  
+ `cd rsl_rl && git checkout v1.0.2 && pip install -e .` 
+
 ## 2. 测试环境
 
 >注意不要照抄指令
@@ -156,7 +161,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your path/anaconda3/envs/<your_env_name>
 ```
 #### 3.3. 运行训练程序
 ```bash
-python train.py --task=tita 
+python train.py --task=tita_constraint 
 ```
 显存不够会非常卡，看到如下图片，表示程序正常执行，ctrl+c退出
 
@@ -169,7 +174,7 @@ python train.py --task=tita
 为了解决显存不足卡顿的问题，我们可以使用--headless参数，这样程序会以命令行的形式运行，不会打开图形界面，这样可以节省显存，提高运行速度
 
 ```bash
-python train.py --task=tita --headless
+python train.py --task=tita_constraint --headless
 ```
 
 ![alt text](pictures_videos/image-3.png)  
@@ -180,7 +185,7 @@ python train.py --task=tita --headless
 #### 4.1. 查看训练成果
 训练好的文件在tita_rl/logs下，例如model_10000.pt，将它拷贝到tita_rl主目录下，然后运行能看到
 ```bash
-python simple_play.py --task=tita
+python simple_play.py --task=tita_constraint
 ```
 ![alt text](<pictures_videos/isaac_gym.gif>)
 #### 4.2. 将tita_rl主目录下的test.onnx推理转成model_gn.engine做sim2sim仿真
