@@ -240,6 +240,7 @@ class TitaConstraintRoughCfgPPO( LeggedRobotCfgPPO ):
         num_steps_per_env = 24
         resume = False
         resume_path = 'tita_example_10000.pt'
+
  
 
   

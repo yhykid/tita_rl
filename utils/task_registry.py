@@ -13,6 +13,9 @@ from global_config import ROOT_DIR, ENVS_DIR
 from .helpers import get_args, update_cfg_from_args, class_to_dict, get_load_path, set_seed, parse_sim_params
 from configs import LeggedRobotCfg, LeggedRobotCfgPPO
 
+from rsl_rl.env import VecEnv
+from rsl_rl.runners import OnPolicyRunner
+
 class TaskRegistry():
     def __init__(self):
         self.task_classes = {}
@@ -151,8 +154,11 @@ class TaskRegistry():
             self.save_config_files(name)
 
         train_cfg_dict = class_to_dict(train_cfg)
-        runner_class = eval(train_cfg.runner.runner_class_name)
-        runner = runner_class(env, train_cfg_dict, self.log_dir, device=args.rl_device)
+        if train_cfg.runner.runner_class_name == "OnPolicyRunner":
+            runner = OnPolicyRunner(env, train_cfg_dict, self.log_dir, device=args.rl_device)
+        else:
+            runner_class = eval(train_cfg.runner.runner_class_name)
+            runner = runner_class(env, train_cfg_dict, self.log_dir, device=args.rl_device)
         #save resume path before creating a new log_dir
         # resume = train_cfg.runner.resume
         # if resume:
