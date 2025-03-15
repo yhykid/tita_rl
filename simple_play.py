@@ -4,7 +4,6 @@ import cv2
 import os
 
 from isaacgym import gymapi
-from modules import *
 from utils import  get_args, export_policy_as_jit, task_registry, Logger
 from configs import *
 from utils.helpers import class_to_dict
