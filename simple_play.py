@@ -24,6 +24,8 @@ from envs import *
 from export_policy_as_onnx  import *
 import argparse
 
+from utils import webviewer
+
 
 
 def delete_files_in_directory(directory_path):
@@ -70,13 +72,17 @@ def play_on_constraint_policy_runner(args):
                                                       env.cfg.env.history_len,
                                                       env.num_actions,
                                                       **policy_cfg_dict)
-    print(policy)
-    #model_dict = torch.load(os.path.join(ROOT_DIR, 'model_4000_phase2_hip.pt'))
-    model_dict = torch.load(os.path.join(ROOT_DIR, 'tita_example_10000.pt'))
+    # print(policy)
+    # model_dict = torch.load(os.path.join(ROOT_DIR, 'model_4000_phase2_hip.pt'))
+    # model_dict = torch.load(os.path.join(ROOT_DIR, 'tita_example_10000.pt'))
+    model_dict = torch.load(os.path.join(ROOT_DIR, 'logs/tita_constraint/Mar24_10-49-35_test_barlowtwins_feetcontact/model_10000.pt'))
     policy.load_state_dict(model_dict['model_state_dict'])
     policy = policy.to(env.device)
-    policy.save_torch_jit_policy('model.pt',env.device)
-
+    if EXPORT_POLICY:
+        policy.save_torch_jit_policy('model.pt',env.device)
+    if WEB_VIEWER:
+        web_viewer = webviewer.WebViewer()
+        web_viewer.setup(env)
     # clear images under frames folder
     # frames_path = os.path.join(ROOT_DIR, 'logs', train_cfg.runner.experiment_name, 'exported', 'frames')
     # delete_files_in_directory(frames_path)
@@ -111,6 +117,7 @@ def play_on_constraint_policy_runner(args):
 
 
     for i in range(num_frames):
+
         action_rate += torch.sum(torch.abs(env.last_actions - env.actions),dim=1)
         z_vel += torch.square(env.base_lin_vel[:, 2])
         xy_vel += torch.sum(torch.square(env.base_ang_vel[:, :2]), dim=1)
@@ -125,18 +132,36 @@ def play_on_constraint_policy_runner(args):
         obs, privileged_obs, rewards,costs,dones, infos = env.step(actions)
         env.gym.step_graphics(env.sim) # required to render in headless mode
         env.gym.render_all_camera_sensors(env.sim)
-        if RECORD_FRAMES:
-            img = env.gym.get_camera_image(env.sim, env.envs[0], cam_handle, gymapi.IMAGE_COLOR).reshape((512,512,4))[:,:,:3]
-            if video is None:
-                video = cv2.VideoWriter('record.mp4', cv2.VideoWriter_fourcc(*'MP4V'), int(1 / env.dt), (img.shape[1],img.shape[0]))
-            video.write(img)
-            img_idx += 1 
-    print("action rate:",action_rate/num_frames)
-    print("z vel:",z_vel/num_frames)
-    print("xy_vel:",xy_vel/num_frames)
-    print("feet air reward",feet_air_time/num_frames)
+        if WEB_VIEWER:
+            web_viewer.render(fetch_results=True,
+                        step_graphics=True,
+                        render_all_camera_sensors=True,
+                        wait_for_page_load=True)
+    #     if RECORD_FRAMES:
+    #         try:
+    #             img = env.gym.get_camera_image(env.sim, env.envs[0], cam_handle, gymapi.IMAGE_COLOR).reshape((512, 512, 4))[:, :, :3]
+    #             if video is None:
+    #                 # 使用更高效的编码格式 'XVID'，可降低 CPU 压力
+    #                 fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    #                 video = cv2.VideoWriter('record.mp4', fourcc, 30, (img.shape[1], img.shape[0]))
+    #             video.write(img)
+    #             # 手动释放图像内存，减少内存占用
+    #             del img
+    #             torch.cuda.empty_cache() if torch.cuda.is_available() else None
+    #         except Exception as e:
+    #             print(f"Error writing video frame: {e}")
+    #             break
+    #     #frame_count += 1
 
-    video.release()
+    # if video is not None:
+    #     video.release()
+    #     print("video released")
+        
+    # # print("action rate:",action_rate/num_frames)
+    # # print("z vel:",z_vel/num_frames)
+    # # print("xy_vel:",xy_vel/num_frames)
+    # # print("feet air reward",feet_air_time/num_frames)
+
 
 
 def play_no_constraint_policy_runner(args):
@@ -191,10 +216,10 @@ def play_no_constraint_policy_runner(args):
 
 
 if __name__ == '__main__':
-    EXPORT_POLICY = True
+    EXPORT_POLICY = False#True
     RECORD_FRAMES = False
     MOVE_CAMERA = False
-
+    WEB_VIEWER = True
     # Register tasks
     task_registry.register("tita_flat", Tita, TitaFlatCfg(), TitaFlatCfgPPO())
     task_registry.register("tita_rough", Tita, TitaRoughCfg(), TitaRoughCfgPPO())
@@ -204,7 +229,7 @@ if __name__ == '__main__':
 
     # Get the selected task name
     task_name = args.task
-
+    args.headless = True
     # Run the corresponding function based on the selected task
     if task_name in ["tita_flat", "tita_rough"]:
         play_no_constraint_policy_runner(args)

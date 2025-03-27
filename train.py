@@ -36,4 +36,5 @@ if __name__ == '__main__':
     task_registry.register("tita_rough", Tita, TitaRoughCfg(), TitaRoughCfgPPO())
 
     args = get_args()
+    args.headless = True
     train(args)
