@@ -18,7 +18,7 @@ from PIL import Image as im
 
 from configs.tita_flat_config import TitaFlatCfg, TitaFlatCfgPPO
 from configs.tita_rough_config import TitaRoughCfg, TitaRoughCfgPPO
-
+from configs.tita_single_stand_config import TitaSingleStandCfg, TitaSingleStandCfgPPO
 from envs.no_constrains_legged_robot import Tita
 from envs import *
 from export_policy_as_onnx  import *
@@ -42,7 +42,7 @@ def delete_files_in_directory(directory_path):
 def play_on_constraint_policy_runner(args):
     env_cfg, train_cfg = task_registry.get_cfgs(name=args.task)
     # override some parameters for testing
-    env_cfg.env.num_envs = min(env_cfg.env.num_envs, 100)
+    env_cfg.env.num_envs =1# min(env_cfg.env.num_envs, 100)
     env_cfg.terrain.num_rows = 5
     env_cfg.terrain.num_cols = 5
     env_cfg.terrain.curriculum = False
@@ -74,8 +74,8 @@ def play_on_constraint_policy_runner(args):
                                                       **policy_cfg_dict)
     # print(policy)
     # model_dict = torch.load(os.path.join(ROOT_DIR, 'model_4000_phase2_hip.pt'))
-    # model_dict = torch.load(os.path.join(ROOT_DIR, 'tita_example_10000.pt'))
-    model_dict = torch.load(os.path.join(ROOT_DIR, 'logs/tita_constraint/Mar24_10-49-35_test_barlowtwins_feetcontact/model_10000.pt'))
+    # model_dict = torch.load(os.path.join(ROOT_DIR, 'tita_examptita_rl/logs/tita_constraint/Apr06_22-05-10_test_barlowtwins_feetcontactle_10000.pt'))
+    model_dict = torch.load(os.path.join(ROOT_DIR, 'logs/tita_constraint/Apr08_17-57-31_test_barlowtwins_feetcontact/model_10000.pt'))
     policy.load_state_dict(model_dict['model_state_dict'])
     policy = policy.to(env.device)
     if EXPORT_POLICY:
@@ -83,9 +83,7 @@ def play_on_constraint_policy_runner(args):
     if WEB_VIEWER:
         web_viewer = webviewer.WebViewer()
         web_viewer.setup(env)
-    # clear images under frames folder
-    # frames_path = os.path.join(ROOT_DIR, 'logs', train_cfg.runner.experiment_name, 'exported', 'frames')
-    # delete_files_in_directory(frames_path)
+
 
     # set rgba camera sensor for debug and doudle check
     camera_local_transform = gymapi.Transform()
@@ -103,12 +101,6 @@ def play_on_constraint_policy_runner(args):
 
     video_duration = 40
     num_frames = int(video_duration / env.dt)
-    print(f'gathering {num_frames} frames')
-    video = None
-
-    #torch.sum(self.last_actions - self.actions, dim=1)
-    # self.base_lin_vel[:, 2]
-    #torch.sum(torch.square(self.base_ang_vel[:, :2]), dim=1)
 
     action_rate = 0
     z_vel = 0
@@ -122,12 +114,11 @@ def play_on_constraint_policy_runner(args):
         z_vel += torch.square(env.base_lin_vel[:, 2])
         xy_vel += torch.sum(torch.square(env.base_ang_vel[:, :2]), dim=1)
 
-        env.commands[:,0] = 1
+        env.commands[:,0] = 0
         env.commands[:,1] = 0
         env.commands[:,2] = 0
         env.commands[:,3] = 0
         actions = policy.act_teacher(obs)
-        # actions = torch.clamp(actions,-1.2,1.2)
 
         obs, privileged_obs, rewards,costs,dones, infos = env.step(actions)
         env.gym.step_graphics(env.sim) # required to render in headless mode
@@ -137,33 +128,9 @@ def play_on_constraint_policy_runner(args):
                         step_graphics=True,
                         render_all_camera_sensors=True,
                         wait_for_page_load=True)
-    #     if RECORD_FRAMES:
-    #         try:
-    #             img = env.gym.get_camera_image(env.sim, env.envs[0], cam_handle, gymapi.IMAGE_COLOR).reshape((512, 512, 4))[:, :, :3]
-    #             if video is None:
-    #                 # 使用更高效的编码格式 'XVID'，可降低 CPU 压力
-    #                 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    #                 video = cv2.VideoWriter('record.mp4', fourcc, 30, (img.shape[1], img.shape[0]))
-    #             video.write(img)
-    #             # 手动释放图像内存，减少内存占用
-    #             del img
-    #             torch.cuda.empty_cache() if torch.cuda.is_available() else None
-    #         except Exception as e:
-    #             print(f"Error writing video frame: {e}")
-    #             break
-    #     #frame_count += 1
-
-    # if video is not None:
-    #     video.release()
-    #     print("video released")
-        
-    # # print("action rate:",action_rate/num_frames)
-    # # print("z vel:",z_vel/num_frames)
-    # # print("xy_vel:",xy_vel/num_frames)
-    # # print("feet air reward",feet_air_time/num_frames)
-
-
-
+        #print(env.foot_positions[:,0,2])
+        # print(env.contact_forces[:, env.feet_indices, :])
+        # print(env.root_states[:,2])
 def play_no_constraint_policy_runner(args):
     env_cfg, train_cfg = task_registry.get_cfgs(name=args.task)
     # override some parameters for testing
@@ -224,14 +191,17 @@ if __name__ == '__main__':
     task_registry.register("tita_flat", Tita, TitaFlatCfg(), TitaFlatCfgPPO())
     task_registry.register("tita_rough", Tita, TitaRoughCfg(), TitaRoughCfgPPO())
     task_registry.register("tita_constraint", LeggedRobot, TitaConstraintRoughCfg(), TitaConstraintRoughCfgPPO())
+    task_registry.register("single_stand", SingleStand, TitaSingleStandCfg(), TitaSingleStandCfgPPO())
 
     args = get_args()
-
+    args.task = "single_stand"
     # Get the selected task name
+
     task_name = args.task
     args.headless = True
     # Run the corresponding function based on the selected task
     if task_name in ["tita_flat", "tita_rough"]:
         play_no_constraint_policy_runner(args)
-    elif task_name == "tita_constraint":
+    # elif task_name == "tita_constraint":
+    else:
         play_on_constraint_policy_runner(args)
